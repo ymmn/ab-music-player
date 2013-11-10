@@ -37,6 +37,20 @@
 				};
 				f();
 			});
+			$("#slider").change(function(){
+				var audio = document.getElementById("maudio");
+				var newtime = audio.duration * $(this).val() / 100;
+				audio.currentTime = newtime
+			});
+			window.setInterval(function(){
+				var audio = document.getElementById("maudio");
+				if(audio == null) return;
+				$("#curtime").html(audio.currentTime);
+				$("#songlength").html(audio.duration);
+				var slide_val = (audio.currentTime / audio.duration) * 100;
+				$("#sliderval").html(slide_val)
+				$("#slider").val(slide_val);
+			}, 500);
 			$("#stopLoop").click(function(){
 				window.clearTimeout(loopId);
 			});
@@ -57,8 +71,8 @@
 			      reader.onload = (function(theFile) {
 			        return function(e) {
 			          // Render thumbnail.
-			          $("body").append('<audio id="maudio" src="' + e.target.result + '" controls></audio>');
-			          $("body").append("Loaded " + escape(theFile.name));
+			          $(".container").append('<audio id="maudio" src="' + e.target.result + '" controls></audio>');
+			          $(".container").append("Loaded " + escape(theFile.name));
 			        };
 			      })(f);
 
@@ -68,9 +82,17 @@
     		});
 		});
 		</script>
+		<style>
+		.player{
+			background-color: #FFEEFF;
+		}
+		</style>
 	</head>
 	<body>
 		<div class="container">
+			<p>Current time: <span id="curtime"></span></p>
+			<p>Song Length: <span id="songlength"></span></p>
+			<p>Slider val: <span id="sliderval"></span></p>
 			<a id="play" class="btn">Play</a>
 			<a id="pause" class="btn">Pause</a>
 			<a id="stop" class="btn">Stop</a>
@@ -78,7 +100,10 @@
 			<a id="b" class="btn">B</a>
 			<a id="loop" class="btn">Loop</a>
 			<a id="stopLoop" class="btn">Stop Loop</a>
+			<input type="file" id="mfile" multiple/>
+			<div class="player">
+				<input id="slider" type="range" />
+			</div>
 		</div>
-		<input type="file" id="mfile" multiple/>
 	</body>
 </html>
