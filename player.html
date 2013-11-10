@@ -1,0 +1,84 @@
+<html>
+	<head>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" ></script>
+		<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"></link>
+		<script>
+		$(document).ready(function(){
+			var a, b;
+			var loopId;
+			$("#play").click(function(){
+				var audio = document.getElementById("maudio");
+				audio.play();
+			});
+			$("#pause").click(function(){
+				var audio = document.getElementById("maudio");
+				audio.pause();
+			});
+			$("#stop").click(function(){
+				var audio = document.getElementById("maudio");
+				audio.load();
+			});
+			$("#a").click(function(){
+				var audio = document.getElementById("maudio");
+				a = audio.currentTime;
+			});
+			$("#b").click(function(){
+				var audio = document.getElementById("maudio");
+				b = audio.currentTime;
+			});
+			$("#loop").click(function(){
+				if(a === undefined || b === undefined) return;
+				var audio = document.getElementById("maudio");
+				var f = function(){
+					audio.currentTime = a;
+					var diff = b - a;
+					loopId = window.setTimeout(f, (diff*1000));
+				};
+				f();
+			});
+			$("#stopLoop").click(function(){
+				window.clearTimeout(loopId);
+			});
+			$("#mfile").change(function(evt){
+			    var files = evt.target.files; // FileList object
+
+			    // Loop through the FileList and render image files as thumbnails.
+			    for (var i = 0, f; f = files[i]; i++) {
+
+			      // Only process image files.
+			      // if (!f.type.match('image.*')) {
+			      //   continue;
+			      // }
+
+			      var reader = new FileReader();
+
+			      // Closure to capture the file information.
+			      reader.onload = (function(theFile) {
+			        return function(e) {
+			          // Render thumbnail.
+			          $("body").append('<audio id="maudio" src="' + e.target.result + '" controls></audio>');
+			          $("body").append("Loaded " + escape(theFile.name));
+			        };
+			      })(f);
+
+			      // Read in the image file as a data URL.
+			      reader.readAsDataURL(f);
+			    }
+    		});
+		});
+		</script>
+	</head>
+	<body>
+		<div class="container">
+			<a id="play" class="btn">Play</a>
+			<a id="pause" class="btn">Pause</a>
+			<a id="stop" class="btn">Stop</a>
+			<a id="a" class="btn">A</a>
+			<a id="b" class="btn">B</a>
+			<a id="loop" class="btn">Loop</a>
+			<a id="stopLoop" class="btn">Stop Loop</a>
+		</div>
+		<input type="file" id="mfile" multiple/>
+	</body>
+</html>
