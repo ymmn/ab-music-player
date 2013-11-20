@@ -5,8 +5,10 @@
 		<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"></link>
 		<script>
 		$(document).ready(function(){
+			var i = 0;
 			var a, b;
 			var loopId;
+			var marks = [];
 			$("#play").click(function(){
 				var audio = document.getElementById("maudio");
 				audio.play();
@@ -18,6 +20,19 @@
 			$("#stop").click(function(){
 				var audio = document.getElementById("maudio");
 				audio.load();
+			});
+			$("#save-mark").click(function(){
+				var audio = document.getElementById("maudio");
+				var nmark = {
+					name: "Mark"+marks.length,
+					time: audio.currentTime
+				};
+				marks.push(nmark);
+				$("#saved-marks").append("<div>" + nmark.name + ": " + nmark.time + " <a href='#' id='remove-mark" + i + "'>X</a></div>");
+				$("#remove-mark" + i).click(function(e){
+					$(this).parent().remove();
+				});
+				i++;
 			});
 			$("#a").click(function(){
 				var audio = document.getElementById("maudio");
@@ -86,6 +101,10 @@
 		.player{
 			background-color: #FFEEFF;
 		}
+		input[type="range"] {
+		    width: 250px;
+		    margin-top: -5px;
+		}
 		</style>
 	</head>
 	<body>
@@ -100,9 +119,13 @@
 			<a id="b" class="btn">B</a>
 			<a id="loop" class="btn">Loop</a>
 			<a id="stopLoop" class="btn">Stop Loop</a>
+			<a id="save-mark" class="btn">Save Mark</a>
 			<input type="file" id="mfile" multiple/>
 			<div class="player">
 				<input id="slider" type="range" />
+			</div>
+			<div id="saved-marks">
+
 			</div>
 		</div>
 	</body>
