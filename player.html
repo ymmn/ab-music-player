@@ -9,20 +9,17 @@
 			var a, b;
 			var loopId;
 			var marks = [];
+			var audio;
 			$("#play").click(function(){
-				var audio = document.getElementById("maudio");
 				audio.play();
 			});
 			$("#pause").click(function(){
-				var audio = document.getElementById("maudio");
 				audio.pause();
 			});
 			$("#stop").click(function(){
-				var audio = document.getElementById("maudio");
 				audio.load();
 			});
 			$("#save-mark").click(function(){
-				var audio = document.getElementById("maudio");
 				var nmark = {
 					name: "Mark"+marks.length,
 					time: audio.currentTime
@@ -35,16 +32,13 @@
 				i++;
 			});
 			$("#a").click(function(){
-				var audio = document.getElementById("maudio");
 				a = audio.currentTime;
 			});
 			$("#b").click(function(){
-				var audio = document.getElementById("maudio");
 				b = audio.currentTime;
 			});
 			$("#loop").click(function(){
 				if(a === undefined || b === undefined) return;
-				var audio = document.getElementById("maudio");
 				var f = function(){
 					audio.currentTime = a;
 					var diff = b - a;
@@ -53,12 +47,10 @@
 				f();
 			});
 			$("#slider").change(function(){
-				var audio = document.getElementById("maudio");
 				var newtime = audio.duration * $(this).val() / 100;
 				audio.currentTime = newtime
 			});
 			window.setInterval(function(){
-				var audio = document.getElementById("maudio");
 				if(audio == null) return;
 				$("#curtime").html(audio.currentTime);
 				$("#songlength").html(audio.duration);
@@ -88,6 +80,7 @@
 			          // Render thumbnail.
 			          $(".container").append('<audio id="maudio" src="' + e.target.result + '" controls></audio>');
 			          $(".container").append("Loaded " + escape(theFile.name));
+     				  audio = document.getElementById("maudio");
 			        };
 			      })(f);
 

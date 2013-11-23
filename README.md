@@ -7,4 +7,4 @@ TODO
 - [ ] make play, pause, stop, save buttons
 - [ ] make nice ui for marks
 - [ ] add drag and drop for the marks to set as A or B
-- [ ] find listener for when audio is ready so i can set a variable to the HTML audio element
+- [X] find listener for when audio is ready so i can set a variable to the HTML audio element
